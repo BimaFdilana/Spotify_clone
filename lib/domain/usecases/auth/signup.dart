@@ -4,10 +4,10 @@ import 'package:spotify_flutter/data/models/auth/create_user_req.dart';
 import 'package:spotify_flutter/domain/repository/auth/auth.dart';
 import 'package:spotify_flutter/service_locator.dart';
 
-class SignupUseCase implements Usecase<Either, CreateUserReq> {
+class SignupUseCase implements UseCase<Either, CreateUserReq> {
 
   @override
- Future<Either> call({CreateUserReq ? Params}) {
-   return sl<AuthRepository>().signup(Params!);
+ Future<Either> call ({CreateUserReq ? params}) {
+   return sl<AuthRepository>().signup(params!);
   }
 }

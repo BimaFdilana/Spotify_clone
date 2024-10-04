@@ -1,4 +1,4 @@
-abstract class Usecase<Type,Params> {
+abstract class UseCase<Type,Params> {
 
   Future<Type> call({Params params});
 }

@@ -7,7 +7,6 @@ import 'package:spotify_flutter/common/widgets/button/basic_app_button.dart';
 import 'package:spotify_flutter/core/config/assets/app_images.dart';
 import 'package:spotify_flutter/core/config/assets/app_vectors.dart';
 import 'package:spotify_flutter/core/config/theme/app_colors.dart';
-import 'package:spotify_flutter/main.dart';
 import 'package:spotify_flutter/presentation/auth/pages/signup_or_signin.dart';
 import 'package:spotify_flutter/presentation/choose_mode/bloc/theme_cubit.dart';
 
