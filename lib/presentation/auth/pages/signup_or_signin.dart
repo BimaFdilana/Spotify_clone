@@ -5,6 +5,7 @@ import 'package:spotify_flutter/common/widgets/appbar/app_bar.dart';
 import 'package:spotify_flutter/common/widgets/button/basic_app_button.dart';
 import 'package:spotify_flutter/core/config/assets/app_images.dart';
 import 'package:spotify_flutter/core/config/assets/app_vectors.dart';
+import 'package:spotify_flutter/presentation/auth/pages/signin.dart';
 import 'package:spotify_flutter/presentation/auth/pages/signup.dart';
 
 class SignupOrSigninPage extends StatelessWidget {
@@ -84,7 +85,14 @@ class SignupOrSigninPage extends StatelessWidget {
                       const SizedBox(width: 20),
                       Expanded(
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                             Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const SigninPage(),
+                              ),
+                            );
+                          },
                           child: Text(
                             'Sign in',
                             style: TextStyle(
