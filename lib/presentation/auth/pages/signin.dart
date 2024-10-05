@@ -4,10 +4,17 @@ import 'package:spotify_flutter/common/helpers/is_dark_mode.dart';
 import 'package:spotify_flutter/common/widgets/appbar/app_bar.dart';
 import 'package:spotify_flutter/common/widgets/button/basic_app_button.dart';
 import 'package:spotify_flutter/core/config/assets/app_vectors.dart';
+import 'package:spotify_flutter/data/models/auth/signin_user_req.dart';
+import 'package:spotify_flutter/domain/usecases/auth/sigin.dart';
 import 'package:spotify_flutter/presentation/auth/pages/signup.dart';
+import 'package:spotify_flutter/presentation/root/pages/root.dart';
+import 'package:spotify_flutter/service_locator.dart';
 
 class SigninPage extends StatelessWidget {
-  const SigninPage({super.key});
+  SigninPage({super.key});
+
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _password = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -25,20 +32,47 @@ class SigninPage extends StatelessWidget {
           vertical: 50,
           horizontal: 30,
         ),
-        child: Column(
-          children: [
-            _registerText(),
-            const SizedBox(height: 30),
-            _emailField(context),
-            const SizedBox(height: 20),
-            _passwordField(context),
-            const SizedBox(height: 25),
-            BasicAppButton(onPressed: () {}, title: 'Sign In'),
-            const SizedBox(height: 20),
-            _dividerOr(context),
-            const SizedBox(height: 15),
-            _googleOrApple(context)
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              _registerText(),
+              const SizedBox(height: 30),
+              _emailField(context),
+              const SizedBox(height: 20),
+              _passwordField(context),
+              const SizedBox(height: 25),
+              BasicAppButton(
+                onPressed: () async {
+                  var result = await sl<SigninUseCase>().call(
+                    params: SigninUserReq(
+                      email: _email.text,
+                      password: _password.text,
+                    ),
+                  );
+                  result.fold(
+                    (l) {
+                      var snackBar = SnackBar(content: Text(l));
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    },
+                    (r) {
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) => const RootPage(),
+                        ),
+                        (route) => false,
+                      );
+                    },
+                  );
+                },
+                title: 'Sign In',
+              ),
+              const SizedBox(height: 20),
+              _dividerOr(context),
+              const SizedBox(height: 15),
+              _googleOrApple(context)
+            ],
+          ),
         ),
       ),
     );
@@ -57,6 +91,7 @@ class SigninPage extends StatelessWidget {
 
   Widget _emailField(BuildContext context) {
     return TextField(
+      controller: _email,
       decoration: const InputDecoration(
         hintText: 'Enter Email',
       ).applyDefaults(
@@ -67,6 +102,7 @@ class SigninPage extends StatelessWidget {
 
   Widget _passwordField(BuildContext context) {
     return TextField(
+      controller: _password,
       decoration: const InputDecoration(
         hintText: 'Password',
       ).applyDefaults(
